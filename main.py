@@ -1,5 +1,6 @@
 import json
 import argparse
+import shlex
 
 FILEPATH  = 'data.json'
 
@@ -30,8 +31,36 @@ def add_task(task_name):
   data["task"].append({"id": new_id,"name":task_name})
   save_json_data(data)
 
-if __name__ == "__main__":
-  
+def update(id,task_name):
+  data = get_json_data()
+  tasks = data.get("task",[])
+  if not tasks:
+    raise ValueError("there is no tasks to Update")
+  for task in tasks:
+    if task["id"] == id:
+      tasks["name"] = task_name
+      return 
+  raise ValueError(f"task {id} not found")
+
+def delete_task(id):
+  return
+
+def start_cli():
+  while True:
+    command_input = input("task-cli ").strip()
+
+    parts = shlex.split(command_input)
+
+    match parts[0]:
+      case "add":
+        add_task(parts[1])
+      case "delete":
+        delete_task(parts[1])
+    
+      
+
+
+def main():
   parser = argparse.ArgumentParser()
   parser.add_argument("command")
   parser.add_argument("task_name", nargs="?")
@@ -40,3 +69,6 @@ if __name__ == "__main__":
   if args.command == "add":
     add_task(args.task_name)
 
+if __name__ == "__main__":
+  start_cli()
+  
