@@ -39,36 +39,57 @@ def update(id,task_name):
   for task in tasks:
     if task["id"] == id:
       tasks["name"] = task_name
-      return 
   raise ValueError(f"task {id} not found")
 
 def delete_task(id):
-  return
+  data=get_json_data()
+  tasks=data.get("task",[])
+  new_tasks = []
+  for task in tasks:
+    if task['id'] != int(id):
+      # print(f'add {task} to new_tasks')
+      new_tasks.append(task)
+  data["task"] = new_tasks
+  save_json_data(data)
+  # print(f"delete task {id} succesfully")
 
+def set_inprogress():
+  return
+  
 def start_cli():
   while True:
     command_input = input("task-cli ").strip()
 
     parts = shlex.split(command_input)
 
-    match parts[0]:
-      case "add":
+    
+    if parts[0] =="add":
         add_task(parts[1])
-      case "delete":
+    elif parts[0] == "update":
+        update(parts[1],parts[2])
+    elif parts[0] == "delete":
         delete_task(parts[1])
+    elif parts[0] == "mark-in-progress":
+        return
+    elif parts[0] == "mark-done":
+        return
+    elif parts[0] == "list"
+        return
+      # case "mark-done":
+      # case "list":
     
       
 
 
-def main():
-  parser = argparse.ArgumentParser()
-  parser.add_argument("command")
-  parser.add_argument("task_name", nargs="?")
-  args = parser.parse_args()
+# def main():
+#   parser = argparse.ArgumentParser()
+#   parser.add_argument("command")
+#   parser.add_argument("task_name", nargs="?")
+#   args = parser.parse_args()
 
-  if args.command == "add":
-    add_task(args.task_name)
+#   if args.command == "add":
+#     add_task(args.task_name)
 
 if __name__ == "__main__":
-  start_cli()
+    start_cli()
   
