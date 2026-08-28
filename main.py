@@ -1,6 +1,7 @@
 import json
 import argparse
 import shlex
+from datetime import datetime
 
 FILEPATH  = 'data.json'
 
@@ -28,17 +29,20 @@ def add_task(task_name):
   # pk incremental
   new_id = get_last_id() + 1
   
-  data["task"].append({"id": new_id,"name":task_name})
+  data["task"].append({"id": new_id,"description":task_name,"status":"to-do","createdAt": datetime.now().isoformat(),"updatedAt" : None })
   save_json_data(data)
 
 def update(id,task_name):
   data = get_json_data()
   tasks = data.get("task",[])
+  id = int(id)
   if not tasks:
     raise ValueError("there is no tasks to Update")
   for task in tasks:
     if task["id"] == id:
-      tasks["name"] = task_name
+      task["description"] = task_name
+      task["updatedAt"] = datetime.now().isoformat()
+      return
   raise ValueError(f"task {id} not found")
 
 def delete_task(id):
@@ -53,8 +57,13 @@ def delete_task(id):
   save_json_data(data)
   # print(f"delete task {id} succesfully")
 
-def set_inprogress():
-  return
+def set_inprogress(id):
+  data = get_json_data()
+  tasks = data.get("task",[])
+  for task in tasks:
+     if task["id"] == id:
+        task["status"] = "in-progress"
+
   
 def start_cli():
   while True:
@@ -73,7 +82,7 @@ def start_cli():
         return
     elif parts[0] == "mark-done":
         return
-    elif parts[0] == "list"
+    elif parts[0] == "list":
         return
       # case "mark-done":
       # case "list":

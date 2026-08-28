@@ -2,11 +2,16 @@
   "task": [
     {
       "id": 1,
-      "name": "รดน้ำต้นไม้\\"
+      "description": "รดน้ำต้นไม้",
+      "status": "todo"
     },
     {
       "id": 2,
-      "name": "กินไก่ทอด"
+      "description": "ทำงานบ้าน",
+      "status": "to-do",
+      "createdAt": "2026-08-28T13:25:14.492063",
+      "updatedAt": null,
+      "name": "ทอดไก่"
     }
   ]
 }
